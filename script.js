@@ -15,9 +15,33 @@ function displayTodos(){
     todoItem.title = '클릭시 완료'
     todoItem.classList.add(aTodo.todoDone ? 'done' : 'yet')
     todoItem.appendChild(todoDelBtn)
+    todoDelBtn.addEventListener('click', function(){
+      handleTodoDelBtnClick(aTodo.todoId)
+    })
+    todoItem.addEventListener('click', function(){
+      handleTodoItemClick(aTodo.todoId)
+    })
     todoList.appendChild(todoItem)
   });
 }
+
+// handleTodoDelBtnClick 함수
+function handleTodoDelBtnClick(clickedId){
+  todoArr = todoArr.filter(function(aTodo){
+    return aTodo.todoId !== clickedId
+  })
+  displayTodos()
+}
+
+// handleTodoItemClick 함수
+function handleTodoItemClick(clickedId){
+  todoArr = todoArr.map(function(aTodo){
+    return aTodo.todoId !== clickedId ? 
+    aTodo : { ...aTodo, todoDone: !aTodo.todoDone } 
+  })
+  displayTodos()
+}
+
 
 // 할일 입력 후 제출하면 발생하는 이벤트 핸들링
 todoForm.addEventListener('submit', function(e){

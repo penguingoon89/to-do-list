@@ -31,6 +31,7 @@ function handleTodoDelBtnClick(clickedId){
     return aTodo.todoId !== clickedId
   })
   displayTodos()
+  saveTodos()
 }
 
 // handleTodoItemClick 함수
@@ -40,8 +41,21 @@ function handleTodoItemClick(clickedId){
     aTodo : { ...aTodo, todoDone: !aTodo.todoDone } 
   })
   displayTodos()
+  saveTodos()
 }
 
+// saveTodos 함수
+function saveTodos(){
+  const todoSting = JSON.stringify(todoArr)
+  localStorage.setItem('myTodos', todoSting)
+}
+
+// loadTodos 함수
+function loadTodos(){
+  const myTodos = localStorage.getItem('myTodos') 
+  todoArr = myTodos !== null ? JSON.parse(myTodos) : todoArr
+  displayTodos()
+}
 
 // 할일 입력 후 제출하면 발생하는 이벤트 핸들링
 todoForm.addEventListener('submit', function(e){
@@ -53,5 +67,9 @@ todoForm.addEventListener('submit', function(e){
   }
   todoForm.todo.value = ""
   todoArr.push(toBeAdded)
+  
   displayTodos()
+  saveTodos()
 })
+
+loadTodos()
